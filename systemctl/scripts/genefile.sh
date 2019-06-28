@@ -4,7 +4,8 @@ IFS="!!"
 
 . $HOME/okchain/launch/systemctl/scripts/okchaind.profile
 
-rm ${OKCHAIN_LAUNCH_TOP}/gentx/data/gentx-*
+
+init_seed_node_home_dir(){
 
 echo "===== init seed node ====="
 for ((i=0; i<${#OKCHAIN_TESTNET_SEED_NODES[@]}; i++))
@@ -31,32 +32,52 @@ SEED_NODE_URL=${OKCHAIN_TESTNET_SEED_NODES[i]}:26656
 EOF
     fi
 done
+}
 
-echo "===== init validator node ====="
-for ((i=0; i<${#OKCHAIN_TESTNET_VAL_NODES[@]}; i++))
-do
-    host=${HOSTS_PREFIX}${OKCHAIN_TESTNET_VAL_NODES[i]}
-    mnemonic=${OKCHAIN_TESTNET_VAL_ADMIN_MNEMONIC[i]}
-    home_d=${HOME_DAEMON}/${host}
-    home_cli=${HOME_CLI}/${host}
+produceGenesis(){
+    cd ${OKCHAIN_LAUNCH_TOP}/
+    ${OKCHAIN_LAUNCH_TOP}/launch
+}
 
-    ${OKCHAIN_CLI} keys add --recover captain --home ${home_cli} -y -m "${CAPTAIN_MNEMONIC}"
-    ${OKCHAIN_CLI} keys add --recover ${host} --home ${home_cli}  -y -m "${mnemonic}"
+init_validator_node_home_dir() {
 
-    ${OKCHAIN_DAEMON} init --chain-id okchain --home ${home_d}
-    
-    ${OKCHAIN_CLI} config chain-id okchain --home ${home_cli}
-    ${OKCHAIN_CLI} config trust-node true --home ${home_cli}
-    ${OKCHAIN_CLI} config indent true --home ${home_cli}
+    rm ${OKCHAIN_LAUNCH_TOP}/gentx/data/gentx-*
 
-    ${OKCHAIN_DAEMON} add-genesis-account $(${OKCHAIN_CLI} keys show ${host} -a --home ${home_cli}) \
-        1okb --home ${home_d}
-    ${OKCHAIN_DAEMON} gentx --amount 1okb --min-self-delegation 1 --commission-rate 0.1 \
-        --commission-max-rate 0.5 --commission-max-change-rate 0.001 \
-        --pubkey $(${OKCHAIN_DAEMON} tendermint show-validator --home ${home_d}) \
-        --name ${host} --home ${home_d} --home-client ${home_cli}
-    cp ${home_d}/config/gentx/gentx-*.json ${OKCHAIN_LAUNCH_TOP}/gentx/data
-done
+    echo "===== init validator node ====="
+    for ((i=0; i<${#OKCHAIN_TESTNET_VAL_NODES[@]}; i++))
+    do
+        host=${HOSTS_PREFIX}${OKCHAIN_TESTNET_VAL_NODES[i]}
+        mnemonic=${OKCHAIN_TESTNET_VAL_ADMIN_MNEMONIC[i]}
+        home_d=${HOME_DAEMON}/${host}
+        home_cli=${HOME_CLI}/${host}
+
+        ${OKCHAIN_CLI} keys add --recover captain --home ${home_cli} -y -m "${CAPTAIN_MNEMONIC}"
+        ${OKCHAIN_CLI} keys add --recover ${host} --home ${home_cli}  -y -m "${mnemonic}"
+
+        ${OKCHAIN_DAEMON} init --chain-id okchain --home ${home_d}
+
+        ${OKCHAIN_CLI} config chain-id okchain --home ${home_cli}
+        ${OKCHAIN_CLI} config trust-node true --home ${home_cli}
+        ${OKCHAIN_CLI} config indent true --home ${home_cli}
+
+        # Adds an account into the ~/.okchaind/config/genesis.json
+        ${OKCHAIN_DAEMON} add-genesis-account $(${OKCHAIN_CLI} keys show ${host} -a --home ${home_cli}) \
+            1okb --home ${home_d}
+
+        # Genesis transaction written to "~/.okchaind/config/gentx/gentx-e6bb1b79ebe58471d13155c0ceef885b98bb0f64.json"
+        # It creates a genesis piece carrying a self delegation for the account above
+        ${OKCHAIN_DAEMON} gentx --amount 1okb --min-self-delegation 1 --commission-rate 0.1 \
+            --commission-max-rate 0.5 --commission-max-change-rate 0.001 \
+            --pubkey $(${OKCHAIN_DAEMON} tendermint show-validator --home ${home_d}) \
+            --name ${host} --home ${home_d} --home-client ${home_cli}
+        cp ${home_d}/config/gentx/gentx-*.json ${OKCHAIN_LAUNCH_TOP}/gentx/data
+    done
+
+    # produce genesis file which ships all the gentx in ${OKCHAIN_LAUNCH_TOP}/gentx/data
+    produceGenesis
+}
+
+init_full_node_home_dir(){
 
 echo "===== init full node ====="
 for ((i=0; i<${#OKCHAIN_TESTNET_FULL_NODES[@]}; i++))
@@ -74,18 +95,32 @@ do
     ${OKCHAIN_CLI} config indent true --home ${home_cli}
 done
 
-cd ${OKCHAIN_LAUNCH_TOP}/
-${OKCHAIN_LAUNCH_TOP}/launch
+}
 
-for host in ${OKCHAIN_TESTNET_SEED_NODES[@]}
-do
-    cp ${OKCHAIN_LAUNCH_TOP}/genesis.json ${HOME_DAEMON}/${HOSTS_PREFIX}${host}/config
-done
-for host in ${OKCHAIN_TESTNET_VAL_NODES[@]}
-do
-    cp ${OKCHAIN_LAUNCH_TOP}/genesis.json ${HOME_DAEMON}/${HOSTS_PREFIX}${host}/config
-done
-for host in ${OKCHAIN_TESTNET_FULL_NODES[@]}
-do
-    cp ${OKCHAIN_LAUNCH_TOP}/genesis.json ${HOME_DAEMON}/${HOSTS_PREFIX}${host}/config
-done
+install_genesis() {
+    for host in ${OKCHAIN_TESTNET_SEED_NODES[@]}
+    do
+        cp ${OKCHAIN_LAUNCH_TOP}/genesis.json ${HOME_DAEMON}/${HOSTS_PREFIX}${host}/config
+    done
+    for host in ${OKCHAIN_TESTNET_VAL_NODES[@]}
+    do
+        cp ${OKCHAIN_LAUNCH_TOP}/genesis.json ${HOME_DAEMON}/${HOSTS_PREFIX}${host}/config
+    done
+    for host in ${OKCHAIN_TESTNET_FULL_NODES[@]}
+    do
+        cp ${OKCHAIN_LAUNCH_TOP}/genesis.json ${HOME_DAEMON}/${HOSTS_PREFIX}${host}/config
+    done
+}
+
+
+main() {
+    init_seed_node_home_dir
+
+    init_validator_node_home_dir
+
+    init_full_node_home_dir
+
+    install_genesis
+}
+
+main
