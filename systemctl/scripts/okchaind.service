@@ -1,0 +1,13 @@
+[Unit]
+Description=okchaind
+
+[Service]
+Type=simple
+RemainAfterExit=yes
+ExecStart=/bin/bash <OKCHAIN_LAUNCH_TOP>/systemctl/scripts/start_node.sh
+ExecStop=/bin/bash <OKCHAIN_LAUNCH_TOP>/systemctl/scripts/stop_node.sh
+Restart=always
+User=<USER>
+
+[Install]
+WantedBy=multi-user.target

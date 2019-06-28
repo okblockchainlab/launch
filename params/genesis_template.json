@@ -1,0 +1,175 @@
+{
+  "genesis_time": "2019-04-25T07:36:18.986838Z",
+  "chain_id": "okchain",
+  "consensus_params": {
+    "block": {
+      "max_bytes": "22020096",
+      "max_gas": "-1",
+      "time_iota_ms": "1000"
+    },
+    "evidence": {
+      "max_age": "100000"
+    },
+    "validator": {
+      "pub_key_types": [
+        "ed25519"
+      ]
+    }
+  },
+  "app_hash": "",
+  "app_state": {
+    "auth": {
+      "collected_fees": null,
+      "params": {
+        "max_memo_characters": "256",
+        "tx_sig_limit": "7",
+        "tx_size_cost_per_byte": "10",
+        "sig_verify_cost_ed25519": "590",
+        "sig_verify_cost_secp256k1": "1000"
+      }
+    },
+    "bank": {
+      "send_enabled": true
+    },
+    "accounts": null,
+    "distr": {
+      "fee_pool": {
+        "community_pool": null
+      },
+      "community_tax": "0.02000000",
+      "base_proposer_reward": "0.01000000",
+      "bonus_proposer_reward": "0.04000000",
+      "withdraw_addr_enabled": true,
+      "delegator_withdraw_infos": null,
+      "previous_proposer": "",
+      "outstanding_rewards": null,
+      "validator_accumulated_commissions": null,
+      "validator_historical_rewards": null,
+      "validator_current_rewards": null,
+      "delegator_starting_infos": null,
+      "validator_slash_events": null
+    },
+    "staking": {
+      "pool": {
+        "not_bonded_tokens": "100000000000000000",
+        "bonded_tokens": "0"
+      },
+      "params": {
+        "unbonding_time": "518400000000000",
+        "max_validators": 21,
+        "max_entries": 7,
+        "bond_denom": "okb"
+      },
+      "last_total_power": "0",
+      "last_validator_powers": null,
+      "validators": null,
+      "delegations": null,
+      "unbonding_delegations": null,
+      "redelegations": null,
+      "exported": false
+    },
+    "slashing": {
+      "params": {
+        "max_evidence_age": "120000000000",
+        "signed_blocks_window": "100",
+        "min_signed_per_window": "0.50000000",
+        "downtime_jail_duration": "600000000000",
+        "slash_fraction_double_sign": "0.05000000",
+        "slash_fraction_downtime": "0.01000000"
+      },
+      "signing_infos": {},
+      "missed_blocks": {}
+    },
+    "gov": {
+      "starting_proposal_id": "1",
+      "proposals": null,
+      "params": {
+        "max_deposit_period": "86400000000000",
+        "min_deposit": [
+          {
+            "denom": "okb",
+            "amount": "100.00000000"
+          }
+        ],
+        "voting_period": "259200000000000",
+        "dex_list_max_deposit_period": "86400000000000",
+        "dex_list_min_deposit": [
+          {
+            "denom": "okb",
+            "amount": "20000.00000000"
+          }
+        ],
+        "dex_list_voting_period": "259200000000000",
+        "dex_list_vote_fee": [
+          {
+            "denom": "okb",
+            "amount": "0.00000000"
+          }
+        ],
+        "dex_list_max_block_height": "10000",
+        "dex_list_fee": [
+          {
+            "denom": "okb",
+            "amount": "100000.00000000"
+          }
+        ],
+        "dex_list_expire_time": "86400000000000",
+        "quorum": "0.33400000",
+        "threshold": "0.50000000",
+        "veto": "0.33400000",
+        "max_block_height_period": "100000",
+        "max_tx_num_per_block": "2000"
+      }
+    },
+    "mint": {
+      "minter": {
+        "inflation": "0.13000000",
+        "annual_provisions": "0.00000000"
+      },
+      "params": {
+        "mint_denom": "okb",
+        "inflation_rate_change": "0.13000000",
+        "inflation_max": "0.20000000",
+        "inflation_min": "0.07000000",
+        "goal_bonded": "0.67000000",
+        "blocks_per_year": "6311520"
+      }
+    },
+    "order": {
+      "params": {
+        "order_expire_blocks": "86400",
+        "new_order": "0.00000000",
+        "cancel": "0.01000000",
+        "cancel_native": "0.00200000",
+        "expire": "0.01000000",
+        "expire_native": "0.00200000",
+        "trade_fee_rate": "0.00100000",
+        "trade_fee_rate_native": "0.00040000"
+      }
+    },
+    "token": {
+      "params": {
+        "list_asset": "100000.00000000",
+        "issue_asset": "20000.00000000",
+        "mint_asset": "2000.00000000",
+        "burn_asset": "100.00000000",
+        "transfer": "0.01250000",
+        "freeze_asset": "0.10000000",
+        "unfreeze_asset": "0.10000000",
+        "list_period": "86400000000000",
+        "list_proposal_min_deposit": "20000.00000000"
+      },
+      "info": [
+        {
+          "desc": "OKB",
+          "symbol": "okb",
+          "originalSymbol": "okb",
+          "wholeName": "ok group coin",
+          "totalSupply": "1000000000",
+          "owner": "",
+          "mintable": true
+        }
+      ]
+    }
+  }
+}
