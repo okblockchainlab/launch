@@ -102,11 +102,12 @@ eeooff
 
 function order {
     . ./token.profile
-    for ((j=0; j<10; j++))
+    for ((j=0; j<2; j++))
     do
         for ((i=0; i<${#TOKENS[@]}; i++))
         do
             okchaincli tx order new ${TOKENS[i]}_okb BUY 0.1 0.1 -y --from captain --node ${TESTNET_RPC_INTERFACE}
+            okchaincli tx order new ${TOKENS[i]}_okb SELL 0.1 0.1 -y --from captain --node ${TESTNET_RPC_INTERFACE}
         done
     done
 }
