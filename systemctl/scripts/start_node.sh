@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. /home/ubuntu/okchain/launch/systemctl/scripts/okchaind.profile
+. $HOME/okchain/launch/systemctl/scripts/okchaind.profile
 
 SEED_NODE=false
 
@@ -29,14 +29,13 @@ if [ ! -d ${HOME_DAEMON}/config ]; then
         scp -r ${SCP_TAG}@${OKCHAIN_TESTNET_SEED_NODES[0]}:${HOME_CLI}/${host}/ ${HOME_CLI}/
     fi
 fi
-MONIKER=`hostname`
+
 ${OKCHAIN_DAEMON} start --home ${HOME_DAEMON} \
     --p2p.seeds ${SEED_NODE_ID}@${SEED_NODE_URL} \
     --p2p.addr_book_strict=false \
     --p2p.seed_mode=${SEED_NODE} \
     --log_stdout=false \
-    --log_level main:info,backend:debug,*:info \
+    --log_level *:info \
     --log_file ${HOME_DAEMON}/okchaind.log \
     --prof_laddr 0.0.0.0:6060 \
-    --p2p.laddr tcp://${LOCAL_IP}:26656 \
-    --moniker ${MONIKER}
+    --p2p.laddr tcp://${LOCAL_IP}:26656

@@ -1,8 +1,6 @@
 #!/bin/bash
-. ./env.profile
-PROFILE=${ENV_TYPE}_okchaind.profile
 
-while getopts "bcp:" opt; do
+while getopts "bcp:e:" opt; do
   case $opt in
     c)
       echo "GIT_CLONE"
@@ -16,12 +14,21 @@ while getopts "bcp:" opt; do
       echo "PROFILE=$OPTARG"
       PROFILE=$OPTARG
       ;;
+    e)
+      echo "ENV_TYPE=$OPTARG"
+      ENV_TYPE=$OPTARG
+      ;;
     \?)
       echo "Invalid option: -$OPTARG"
       ;;
   esac
 done
 
+if  [ ! -n "$ENV_TYPE" ] ;then
+    echo "git.sh you must input -e!"
+    exit
+fi
+PROFILE=${ENV_TYPE}_okchaind.profile
 . ./${PROFILE}
 
 function gitclone {
@@ -29,9 +36,12 @@ echo git clone@$1
 ${SSH}@$1 << eeooff
     sudo rm -rf ${OKCHAIN_LAUNCH_TOP}
     git clone ${LAUNCH_GIT} ${OKCHAIN_LAUNCH_TOP}
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/
+    cd ${OKCHAIN_LAUNCH_TOP}
+    git checkout v0.1
 
+    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/
     git clone ${OKBINS_GIT}
+    git checkout v0.1
     cd okbins
     ../unzip.sh
 

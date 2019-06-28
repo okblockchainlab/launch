@@ -21,3 +21,4 @@ okchain_cloud13)
 TESTNET_RPC_INTERFACE=okchain_cloud22:26657
 
 SSH="ssh -i ~/okchain-dex-test.pem ubuntu"
+VAL_NUM=4

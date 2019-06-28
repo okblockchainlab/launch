@@ -4,10 +4,10 @@ Description=okchaind
 [Service]
 Type=simple
 RemainAfterExit=yes
-ExecStart=/bin/bash /home/ubuntu/okchain/launch/systemctl/scripts/start_node.sh
-ExecStop=/bin/bash /home/ubuntu/okchain/launch/systemctl/scripts/stop_node.sh
+ExecStart=/bin/bash <OKCHAIN_LAUNCH_TOP>/systemctl/scripts/start_node.sh
+ExecStop=/bin/bash <OKCHAIN_LAUNCH_TOP>/systemctl/scripts/stop_node.sh
 Restart=always
-User=ubuntu
+User=<USER>
 
 [Install]
 WantedBy=multi-user.target

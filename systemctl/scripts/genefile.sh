@@ -32,16 +32,18 @@ EOF
     fi
 done
 
+accounts=""
 echo "===== init validator node ====="
 for ((i=0; i<${#OKCHAIN_TESTNET_VAL_NODES[@]}; i++))
 do
     host=${HOSTS_PREFIX}${OKCHAIN_TESTNET_VAL_NODES[i]}
-    mnemonic=${OKCHAIN_TESTNET_VAL_ADMIN_MNEMONIC[i]}
     home_d=${HOME_DAEMON}/${host}
     home_cli=${HOME_CLI}/${host}
+    mnemonic=${OKCHAIN_TESTNET_VAL_ADMIN_MNEMONIC[i]}
 
     ${OKCHAIN_CLI} keys add --recover captain --home ${home_cli} -y -m "${CAPTAIN_MNEMONIC}"
     ${OKCHAIN_CLI} keys add --recover ${host} --home ${home_cli}  -y -m "${mnemonic}"
+    accounts=${accounts}\"$(${OKCHAIN_CLI} keys show ${host} -a --home ${home_cli})\"": 1000,"
 
     ${OKCHAIN_DAEMON} init --chain-id okchain --home ${home_d}
     
@@ -58,6 +60,9 @@ do
         --name ${host} --home ${home_d} --home-client ${home_cli}
     cp ${home_d}/config/gentx/gentx-*.json ${OKCHAIN_LAUNCH_TOP}/gentx/data
 done
+cat>${OKCHAIN_LAUNCH_TOP}/accounts/others.json<<EOF
+{${accounts%?}}
+EOF
 
 echo "===== init full node ====="
 for ((i=0; i<${#OKCHAIN_TESTNET_FULL_NODES[@]}; i++))

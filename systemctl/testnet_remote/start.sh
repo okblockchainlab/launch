@@ -1,7 +1,5 @@
 #!/bin/bash
 
-TOKEN_PROFILE=token.profile
-ENV_TYPE=cloud
 
 while getopts "oqrcstap:e:" opt; do
   case $opt in
@@ -47,9 +45,12 @@ while getopts "oqrcstap:e:" opt; do
   esac
 done
 
+if  [ ! -n "$ENV_TYPE" ] ;then
+    echo "start.sh you must input -e!"
+    exit
+fi
 PROFILE=${ENV_TYPE}_okchaind.profile
 . ./${PROFILE}
-. ./${TOKEN_PROFILE}
 
 start_node() {
     echo start_node@$1
@@ -100,6 +101,7 @@ eeooff
 
 
 function order {
+    . ./token.profile
     for ((j=0; j<10; j++))
     do
         for ((i=0; i<${#TOKENS[@]}; i++))
@@ -141,7 +143,7 @@ exe_query() {
 
 run() {
 
-    echo "========== step1: stop adn clean node =========="
+    echo "========== step1: stop and clean node =========="
     for host in ${OKCHAIN_TESTNET_ALL_NODE[@]}
     do
         if [ ! -z "${RESTART}" ];then
@@ -168,16 +170,13 @@ run() {
 
 function main {
 
-cat>env.profile<<EOF
-ENV_TYPE=${ENV_TYPE}
-EOF
     if [ ! -z "${ORDER}" ];then
         order
         exit
     fi
 
     if [ ! -z "${TOKEN}" ];then
-        ./icobysuffix.sh
+        ./icobysuffix.sh -e ${ENV_TYPE}
         exit
     fi
 

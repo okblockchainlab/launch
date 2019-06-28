@@ -1,20 +1,13 @@
 #!/usr/bin/env bash
 #set -e
 
-CURDIR=`dirname $0`
 
-. ./env.profile
-. ${CURDIR}/../scripts/base.profile
-. ./${ENV_TYPE}_okchaind.profile
-. ./token.profile
-. ./token_org.profile
 
-OKCHAIN_CLI=okchaincli
 BEGIN_PROPOSALID=1
 ADMIN_HOME=~/.okchaincli/admin
 TMP_TOKEN_FILE=tmp.token.json
 
-while getopts "i:apvVqg" opt; do
+while getopts "i:apvVqge:" opt; do
   case $opt in
     g)
       echo "GEN_ICO_TOKEN_LIST"
@@ -44,12 +37,25 @@ while getopts "i:apvVqg" opt; do
       echo "ACTIVE_ONLY"
       ACTIVE_ONLY="true"
       ;;
+    e)
+      echo "ENV_TYPE=$OPTARG"
+      ENV_TYPE=$OPTARG
+      ;;
     \?)
       echo "Invalid option: -$OPTARG"
       ;;
   esac
 done
 
+if  [ ! -n "$ENV_TYPE" ] ;then
+    echo "icobysuffix.sh you must input -e!"
+    exit
+fi
+CURDIR=`dirname $0`
+. ${CURDIR}/../scripts/base.profile
+. ./${ENV_TYPE}_okchaind.profile
+. ./token_org.profile
+OKCHAIN_CLI=okchaincli
 
 okecho() {
     echo "shell exec: [$@]"
@@ -61,7 +67,7 @@ echoonly() {
 }
 
 proposal() {
-    ${OKCHAIN_CLI} tx gov submit-dex-list-proposal \
+    okecho ${OKCHAIN_CLI} tx gov submit-dex-list-proposal \
         --title="list $1/okb" \
         --description="" \
         --type=DexList \
@@ -83,18 +89,18 @@ issue() {
 }
 
 vote() {
-   for ((idx=0; idx<${#OKCHAIN_TESTNET_VAL_ADMIN_MNEMONIC[@]}; idx++))
+   for ((idx=0; idx<${VAL_NUM}; idx++))
    do
        okecho ${OKCHAIN_CLI} tx gov vote $1 yes --from admin${idx} -y \
         --node ${TESTNET_RPC_INTERFACE} --home ${ADMIN_HOME}${idx} \
-        --chain-id okchain &
+        --chain-id okchain
    done
 }
 
 recover() {
-
+   rm -r  ${ADMIN_HOME}*
    ${OKCHAIN_CLI} keys add --recover captain -y -m "${CAPTAIN_MNEMONIC}"
-   for ((i=0; i<${#OKCHAIN_TESTNET_VAL_ADMIN_MNEMONIC[@]}; i++))
+   for ((i=0; i<${VAL_NUM}; i++))
    do
        mnemonic=${OKCHAIN_TESTNET_VAL_ADMIN_MNEMONIC[i]}
        ${OKCHAIN_CLI} keys add --recover admin${i} -y --home ${ADMIN_HOME}${i} -m "${mnemonic}"
@@ -120,12 +126,11 @@ issue_by_suffix() {
         rm ${TMP_TOKEN_FILE}
     fi
 
-    tag=`okchaincli version`
     index=0
     for token in ${TOKENS_ORG[@]}
     do
-         echo "okchaincli tx token issue --desc \"发币 ${token}\" --mintable --symbol $token -w $token -n 89999999999 --node ${TESTNET_RPC_INTERFACE} --from captain -y "
-        okchaincli tx token issue --mintable --symbol $token -n 89999999999 \
+         echo "${OKCHAIN_CLI} tx token issue --desc \"发币 ${token}\" --mintable --symbol $token -w $token -n 89999999999 --node ${TESTNET_RPC_INTERFACE} --from captain -y "
+        ${OKCHAIN_CLI} tx token issue --mintable --symbol $token -n 89999999999 \
             --node ${TESTNET_RPC_INTERFACE} \
             --desc "发币 ${token}" \
             -w $token \
@@ -147,7 +152,7 @@ TOKENS=(${output})
 EOF
         fi
     done
-
+    rm ${TMP_TOKEN_FILE}
 }
 
 
@@ -201,19 +206,19 @@ query_only() {
     for ((i=0; i<${#TOKENS[@]}; i++))
     do
         token=${TOKENS[i]}
-        okecho okchaincli query token info $token --node ${TESTNET_RPC_INTERFACE} --chain-id okchain
+        okecho ${OKCHAIN_CLI} query token info $token --node ${TESTNET_RPC_INTERFACE} --chain-id okchain
         echo "------------------------------------"
     done
-    okchaincli query token tokenpair --node ${TESTNET_RPC_INTERFACE} --chain-id okchain|grep baseAssetSymbol|wc -l
+    ${OKCHAIN_CLI} query token tokenpair --node ${TESTNET_RPC_INTERFACE} --chain-id okchain|grep baseAssetSymbol|wc -l
 
 }
 
 
 gen_only() {
-    okecho okchaincli query token tokenpair --node ${TESTNET_RPC_INTERFACE} \
+    okecho ${OKCHAIN_CLI} query token tokenpair --node ${TESTNET_RPC_INTERFACE} \
         --chain-id okchain|grep baseAssetSymbol
 
-    okchaincli query token tokenpair --node ${TESTNET_RPC_INTERFACE} \
+    ${OKCHAIN_CLI} query token tokenpair --node ${TESTNET_RPC_INTERFACE} \
         --chain-id okchain|grep baseAssetSymbol | awk '{print $2}' > ${TMP_TOKEN_FILE}
 
     index=0
@@ -230,15 +235,16 @@ TOKENS=(${output})
 EOF
         fi
     done
+    rm ${TMP_TOKEN_FILE}
 }
 
 
 main() {
 
-    okchaincli config chain-id okchain
-    okchaincli config trust-node true
-    okchaincli config output json
-    okchaincli config indent true
+    ${OKCHAIN_CLI} config chain-id okchain
+    ${OKCHAIN_CLI} config trust-node true
+    ${OKCHAIN_CLI} config output json
+    ${OKCHAIN_CLI} config indent true
 
     if [ ! -z "${GEN_ICO_TOKEN_LIST}" ]; then
         gen_only
@@ -252,7 +258,7 @@ main() {
 
     if [ ! -z "${ACTIVE_ONLY}" ]; then
         active_all $1
-        okchaincli query token tokenpair --node ${TESTNET_RPC_INTERFACE} |grep baseAssetSymbol|wc -l
+        ${OKCHAIN_CLI} query token tokenpair --node ${TESTNET_RPC_INTERFACE} |grep baseAssetSymbol|wc -l
         exit
     fi
 
@@ -261,14 +267,14 @@ main() {
     if [ ! -z "${PROPOSAL_ONLY}" ]; then
         echo "proposal_vote_only"
         proposal_vote_only $1
-        okchaincli query token tokenpair --node ${TESTNET_RPC_INTERFACE} |grep baseAssetSymbol|wc -l
+        ${OKCHAIN_CLI} query token tokenpair --node ${TESTNET_RPC_INTERFACE} |grep baseAssetSymbol|wc -l
         exit
     fi
 
     ico $1
 
     sleep 3
-    okchaincli query token tokenpair --node ${TESTNET_RPC_INTERFACE} |grep baseAssetSymbol|wc -l
+    ${OKCHAIN_CLI} query token tokenpair --node ${TESTNET_RPC_INTERFACE} |grep baseAssetSymbol|wc -l
 }
 
 main ${BEGIN_PROPOSALID}

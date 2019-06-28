@@ -22,3 +22,4 @@ okchain13)
 TESTNET_RPC_INTERFACE=okchain23:26657
 
 SSH="ssh root"
+VAL_NUM=4
