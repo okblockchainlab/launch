@@ -67,7 +67,7 @@ ssh root@192.168.13.116 << eeooff
         git clone ${OKBINS_GIT} /root/go/src/github.com/cosmos/launch/systemctl/binary/okbins_${ENV_TYPE}
     fi
     cd /root/go/src/github.com/cosmos/launch/systemctl/binary/okbins_${ENV_TYPE}
-    git reset --hard
+    git reset --hard HEAD~1
     cp /usr/local/go/bin/okchaind .
     cp /usr/local/go/bin/okchaincli .
     cp /usr/local/go/bin/tiger .
