@@ -1,0 +1,15 @@
+CURDIR=`dirname $0`
+. ${CURDIR}/base.profile
+
+
+# 是否使用内网IP 
+# 如果false，则使用公网IP，OKCHAIN_TESTNET_FULL_HOSTS设置其他节点公网IP
+# 如果是true，则必须设置IP_PREFIX，OKCHAIN_TESTNET_FULL_HOSTS设置其他节点内网IP
+IP_INNET=true
+IP_PREFIX=172.31
+HOSTS_PREFIX=okchain_cloud
+SCP_TAG="-i ~/okchain-dex-test.pem ubuntu"
+
+OKCHAIN_TESTNET_SEED_NODES=("172.31.34.156")
+OKCHAIN_TESTNET_VAL_NODES=("172.31.47.97" "172.31.46.79" "172.31.42.153" "172.31.32.196")
+OKCHAIN_TESTNET_FULL_NODES=("172.31.34.176" "172.31.38.192")
