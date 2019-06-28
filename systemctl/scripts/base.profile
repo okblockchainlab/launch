@@ -11,9 +11,9 @@ OKCHAIN_TESTNET_VAL_ADMIN_MNEMONIC=(
 "${ADMIN4_MNEMONIC}"
 )
 
-OKCHAIN_LAUNCH_TOP=/root/okchain/launch
-OKCHAIN_DAEMON=/root/okchain/launch/systemctl/binary/okchaind
-OKCHAIN_CLI=/root/okchain/launch/systemctl/binary/okchaincli
-HOME_DAEMON=/root/.okchaind
-HOME_CLI=/root/.okchaincli
+OKCHAIN_LAUNCH_TOP=$HOME/okchain/launch
+OKCHAIN_DAEMON=$HOME/okchain/launch/systemctl/binary/okchaind
+OKCHAIN_CLI=$HOME/okchain/launch/systemctl/binary/okchaincli
+HOME_DAEMON=$HOME/.okchaind
+HOME_CLI=$HOME/.okchaincli
 

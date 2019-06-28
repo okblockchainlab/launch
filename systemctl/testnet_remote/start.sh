@@ -1,7 +1,7 @@
 #!/bin/bash
 
 TOKEN_PROFILE=token.profile
-ENV_TYPE=home
+ENV_TYPE=cloud
 
 while getopts "oqrcstap:e:" opt; do
   case $opt in

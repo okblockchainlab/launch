@@ -2,7 +2,7 @@
 
 IFS="!!"
 
-. /root/okchain/launch/systemctl/scripts/okchaind.profile
+. $HOME/okchain/launch/systemctl/scripts/okchaind.profile
 
 rm ${OKCHAIN_LAUNCH_TOP}/gentx/data/gentx-*
 

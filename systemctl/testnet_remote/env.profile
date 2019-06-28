@@ -1,1 +1,1 @@
-ENV_TYPE=home
+ENV_TYPE=cloud
