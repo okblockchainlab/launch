@@ -108,6 +108,21 @@ function main {
     if [ ! -z "${GIT_CLONE}" ];then
         for host in ${OKCHAIN_TESTNET_DEPLOYED_HOSTS[@]}
         do
+            OKCHAIN_LAUNCH_TOP=/home/ubuntu/okchain/launch
+            gitclone ${host}
+        done
+
+        for host in ${OKCHAIN_TESTNET_HK_DEPLOYED_HOSTS[@]}
+        do
+            OKCHAIN_LAUNCH_TOP=/home/ubuntu/okchain/launch
+            SSH=${SSHHK}
+            gitclone ${host}
+        done
+
+        for host in ${OKCHAIN_TESTNET_LOCAL_HOSTS[@]}
+        do
+            OKCHAIN_LAUNCH_TOP=/root/go/src/github.com/cosmos/launch
+            SSH=${SSHLOCAL}
             gitclone ${host}
         done
 
@@ -138,8 +153,7 @@ ssh root@${host} << eeooff
         git checkout dev
         make install
         make tiger
-        cd /root/go/src/github.com/ok-chain/okchain/launch
-        go build
+        make launchcmd
 
         cd /root/go/src/github.com/cosmos/launch
         git reset --hard
