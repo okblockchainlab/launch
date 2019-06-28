@@ -1,5 +1,5 @@
 #!/bin/bash
 
-. /root/okchain/launch/systemctl/scripts/okchaind.profile
+. /home/ubuntu/okchain/launch/systemctl/scripts/okchaind.profile
 
 ${OKCHAIN_CLI} query debug stop

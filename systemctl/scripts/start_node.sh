@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. /root/okchain/launch/systemctl/scripts/okchaind.profile
+. /home/ubuntu/okchain/launch/systemctl/scripts/okchaind.profile
 
 SEED_NODE=false
 
