@@ -56,11 +56,10 @@ ssh root@192.168.13.116 << eeooff
     git checkout dev
     make install
     make tiger
-    cd /root/go/src/github.com/ok-chain/okchain/launch
-    go build
+    make launchcmd
 
     cd /root/go/src/github.com/cosmos/launch
-    git stash
+    git reset --hard
     git pull
     git checkout dev
     git branch
@@ -68,11 +67,11 @@ ssh root@192.168.13.116 << eeooff
         git clone ${OKBINS_GIT} /root/go/src/github.com/cosmos/launch/systemctl/binary/okbins_${ENV_TYPE}
     fi
     cd /root/go/src/github.com/cosmos/launch/systemctl/binary/okbins_${ENV_TYPE}
-    git pull
+    git reset --hard
     cp /usr/local/go/bin/okchaind .
     cp /usr/local/go/bin/okchaincli .
     cp /usr/local/go/bin/tiger .
-    cp /root/go/src/github.com/ok-chain/okchain/launch/launch .
+    cp /usr/local/go/bin/launch .
     ../zip.sh
     ../gitpush.sh
 eeooff
