@@ -10,8 +10,9 @@ PRICE=0.1
 QUANTITY=0.1
 TYPE=SELL
 TOKENPAIR_NUM=2
+HOST=c22:26657
 
-while getopts "P:t:q:p:d:b:c:n:" opt; do
+while getopts "P:t:q:p:d:b:c:n:u:" opt; do
   case $opt in
     P)
       echo "TOKENPAIR_NUM=$OPTARG"
@@ -45,6 +46,10 @@ while getopts "P:t:q:p:d:b:c:n:" opt; do
       echo "CONCURRENT_NUM=$OPTARG"
       CONCURRENT_NUM=$OPTARG
       ;;
+    u)
+      echo "HOST=$OPTARG"
+      HOST=$OPTARG
+      ;;
     \?)
       echo "Invalid option: -$OPTARG"
       ;;
@@ -54,23 +59,23 @@ done
 function sell {
     for ((;;)) do
         tiger order -n $ROUND_NUM -c $CONCURRENT_NUM -t SELL -p $PRICE -q $QUANTITY -b $BATCH_NUM -d $DEPTH -P $TOKENPAIR_NUM \
-            -u c21:26657,c22:26657,c23:26657,c24:26657,c16:26657,c25:26657,c13:26657 >> tigersell.log
+            -u $HOST >> tigersell.log
     done
 }
 
 function buy {
     for ((;;)) do
         tiger order -n $ROUND_NUM -c $CONCURRENT_NUM -t BUY -p $PRICE -q $QUANTITY -b $BATCH_NUM -d $DEPTH -P $TOKENPAIR_NUM \
-            -u c21:26657,c22:26657,c23:26657,c24:26657,c16:26657,c25:26657,c13:26657 >> tigerbuy.log
+            -u $HOST >> tigerbuy.log
     done
 }
 
 function sell_and_buy {
     for ((;;)) do
         tiger order -n $ROUND_NUM -c $CONCURRENT_NUM -t SELL -p $PRICE -q $QUANTITY -b $BATCH_NUM -d $DEPTH -P $TOKENPAIR_NUM \
-            -u c21:26657,c22:26657,c23:26657,c24:26657,c16:26657,c25:26657,c13:26657 >> tigersell.log
+            -u $HOST >> tigersell.log
         tiger order -n $ROUND_NUM -c $CONCURRENT_NUM -t BUY -p $PRICE -q $QUANTITY -b $BATCH_NUM -d $DEPTH -P $TOKENPAIR_NUM \
-            -u c21:26657,c22:26657,c23:26657,c24:26657,c16:26657,c25:26657,c13:26657 >> tigerbuy.log
+            -u $HOST >> tigerbuy.log
     done
 }
 
