@@ -107,6 +107,7 @@ ${SSH}@$1 << eeooff
     git pull
     git checkout v0.1
     git pull
+    git branch
     ../unzip.sh
 
     mv ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/launch ${OKCHAIN_LAUNCH_TOP}/
