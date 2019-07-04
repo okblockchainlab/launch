@@ -73,9 +73,9 @@ function buy {
 function sell_and_buy {
     for ((;;)) do
         tiger order -n $ROUND_NUM -c $CONCURRENT_NUM -t SELL -p $PRICE -q $QUANTITY -b $BATCH_NUM -d $DEPTH -P $TOKENPAIR_NUM \
-            -u $HOST >> tigersell.log &
+            -u $HOST >> tigersell.log
         tiger order -n $ROUND_NUM -c $CONCURRENT_NUM -t BUY -p $PRICE -q $QUANTITY -b $BATCH_NUM -d $DEPTH -P $TOKENPAIR_NUM \
-            -u $HOST >> tigerbuy.log &
+            -u $HOST >> tigerbuy.log
     done
 }
 
