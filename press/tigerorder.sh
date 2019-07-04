@@ -4,8 +4,8 @@ CURDIR=`dirname $0`
 
 CONCURRENT_NUM=5
 ROUND_NUM=10
-BATCH_NUM=10
-DEPTH=10
+BATCH_NUM=1
+DEPTH=1
 PRICE=0.1
 QUANTITY=0.1
 TYPE=SELL
@@ -80,9 +80,12 @@ function sell_and_buy {
 }
 
 if [ "${!#}" == "sell" ];then
+    echo "sell"
     sell
 elif [ "${!#}" == "buy" ];then
+    echo "buy"
     buy
 elif [ "${!#}" == "sell_buy" ];then
+    echo "sell_buy"
     sell_and_buy
 fi
