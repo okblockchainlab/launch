@@ -3,20 +3,14 @@
 . home_okchaind.profile
 
 function gitclone {
-     echo install $1 in $2
+     echo install $1
+      in $2
 ${SSH}@$1 << eeooff
-    sudo rm -rf ${OKCHAIN_LAUNCH_TOP}
-    git clone ${LAUNCH_GIT} ${OKCHAIN_LAUNCH_TOP}
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/
-    git checkout dev
+    if [[ ! -d ${COSMOS_BINS_TOP} ]]; then
+        mkdir -p ${COSMOS_BINS_TOP}
+        git clone ${COSMOS_BINS_GIT} ${COSMOS_BINS_TOP}
+    fi
 
-    git clone ${OKBINS_GIT}
-    cd okbins
-    ../unzip.sh
-
-    mv ${OKCHAIN_LAUNCH_TOP}/systemctl/binary/launch ${OKCHAIN_LAUNCH_TOP}/
-    cd ${OKCHAIN_LAUNCH_TOP}/systemctl/scripts
-    ./service.sh ${ENV_TYPE}
     exit
 eeooff
 }
