@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. ./home_okchaind.profile
+. home_okchaind.profile
 
 function gitclone {
      echo install $1 in $2

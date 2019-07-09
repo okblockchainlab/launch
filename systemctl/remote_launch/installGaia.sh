@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. ./home_okchaind.profile
+. home_okchaind.profile
 
 function makeInstall {
     cosmospath=${GOPATH}/src/github.com/cosmos/cosmos-sdk
