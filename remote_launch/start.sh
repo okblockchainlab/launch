@@ -18,8 +18,13 @@ done
 function downloadlaunch {
     echo "====================== download launch in ${1} ======================"
 ${SSH}@${1} << eeooff
-    cd ${LAUNCH_PATH}/remote_launch
-    ./downloadLaunch.sh
+    if [[ ! -d ${LAUNCH_PATH} ]]; then
+       git clone -b cosmos ${LAUNCH_GIT} ${LAUNCH_PATH}
+    else
+       cd ${LAUNCH_PATH}
+       git checkout cosmos
+       git pull origin cosmos
+    fi
 
     exit
 eeooff
