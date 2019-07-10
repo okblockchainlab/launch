@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
+# run in ubuntu with root
 
 . home_okchaind.profile
 
 function downloadGaia {
-    echo "====================== download gaia bins ${1} ======================"
-    cosmosbinpath=/root/cosmos/cosmosbins
+    cosmosbinpath=/root/gaia_test/cosmosbins
     if [[ ! -d ${cosmosbinpath} ]]; then
         mkdir -p ${cosmosbinpath}
         git clone -b ${1} ${COSMOS_BINS_GIT} ${cosmosbinpath}
