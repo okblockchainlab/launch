@@ -7,11 +7,11 @@
 function downloadGaia {
     cosmosbinpath=${COSMOSBINS_PATH}
     if [[ ! -d ${cosmosbinpath} ]]; then
-        mkdir -p ${cosmosbinpath}
         git clone -b ${1} ${COSMOS_BINS_GIT} ${cosmosbinpath}
     else
         cd ${cosmosbinpath}
         git checkout ${1}
+        git pull origin ${1}
     fi
 
     #s=`go env | grep GOBIN | sed 's/\"//g'`
