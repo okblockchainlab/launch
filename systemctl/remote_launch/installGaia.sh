@@ -14,6 +14,7 @@ function makeInstall {
 }
 
 function pushGaia {
+    echo "====================== git checkout branch ${1} ====================="
     cosmosbinpath=/root/cosmos/cosmosbins
     if [[ ! -d ${cosmosbinpath} ]]; then
         mkdir -p ${cosmosbinpath}
@@ -23,15 +24,15 @@ function pushGaia {
     cd ${cosmosbinpath}
     git checkout -b ${1}
 
-    echo "====================== copy gaia bins to ./cosmosbins ====================="
+    echo "====================== copy new gaia bins to ${cosmosbinpath} ====================="
     gaiadpath=`which gaiad`
     gaiaclipath=`which gaiacli`
     cp -f ${gaiadpath} ${cosmosbinpath}
     cp -f ${gaiaclipath} ${cosmosbinpath}
 
-    echo "====================== push gaia bins to github ====================="
+    echo "====================== push new gaia bins to gitlab ====================="
     git add .
-    git commit -m "rebuild gaiad bin ${1} in `date "+%G-%m-%d %H:%M:%S"`"
+    git commit -m "rebuild gaia bin ${1} in `date "+%G-%m-%d %H:%M:%S"`"
     git push origin ${1}:${1}
 }
 
