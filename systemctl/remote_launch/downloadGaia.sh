@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+. home_okchaind.profile
+
 function downloadGaia {
     echo "====================== download gaia bins ${1} ======================"
     cosmosbinpath=/root/cosmos/cosmosbins
