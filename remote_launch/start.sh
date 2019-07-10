@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # run in local
 
-. home_okchaind.profile
+. init_all.profile
+. init_ubuntu.profile
 
 while getopts "d:v:" opt; do
   case ${opt} in
@@ -35,19 +36,29 @@ eeooff
 function downloadgaia {
      echo "====================== download gaia bins ${VERSION} in ${1} ======================"
 ${SSH}@${1} << eeooff
-    cd ${LAUNCH_PATH}/systemctl/remote_launch
+    cd ${LAUNCH_PATH}/remote_launch
     ./downloadGaia.sh ${VERSION}
 
     exit
 eeooff
 }
 
+function generatefile {
+     echo "====================== download gaia bins ${VERSION} in ${1} ======================"
+${SSH}@${1} << eeooff
+    cd ${LAUNCH_PATH}/remote_launch
+    ./downloadGaia.sh ${VERSION}
+
+    exit
+eeooff
+}
 
 #2.download bins in every host
 #3.
 function main {
     echo DOWNLOAD_LAUNCH:${DOWNLOAD}
     echo VERSION:${VERSION}
+
 
     if [[ ${DOWNLOAD} == "true" ]];then
         echo "================================ download launch ================================"
@@ -62,6 +73,14 @@ function main {
     do
          downloadgaia ${host}
     done
+
+    echo "================================ generate genesis.json ================================"
+    for host in ${OKCHAIN_TESTNET_ALL_NODE[@]}
+    do
+         downloadgaia ${host}
+    done
+
+
 }
 
 main

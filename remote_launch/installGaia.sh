@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # run in ubuntu with root
 
-. home_okchaind.profile
+. init_all.profile
 
 function makeInstall {
     cosmospath=/root/gaia_test/cosmos-sdk

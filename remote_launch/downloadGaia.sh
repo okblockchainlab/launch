@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # run in ubuntu with root
 
-. home_okchaind.profile
+. init_all.profile
+. init_ubuntu.profile
 
 function downloadGaia {
     cosmosbinpath=/root/gaia_test/cosmosbins
@@ -15,9 +16,9 @@ function downloadGaia {
 
     #s=`go env | grep GOBIN | sed 's/\"//g'`
     #GOBINPATH=${s##*=}
-    cp -f ${cosmosbinpath}/gaiad /usr/local/go/bin
-    cp -f ${cosmosbinpath}/gaiacli /usr/local/go/bin
-    echo "gaiad version `/usr/local/go/bin/gaiad version` , gaiacli version `/usr/local/go/bin/gaiacli version` "
+    cp -f ${cosmosbinpath}/gaiad ${GOBINPATH}
+    cp -f ${cosmosbinpath}/gaiacli ${GOBINPATH}
+    echo "gaiad version `${GOBINPATH}/gaiad version` , gaiacli version `${GOBINPATH}/gaiacli version` "
 }
 
 downloadGaia ${1}

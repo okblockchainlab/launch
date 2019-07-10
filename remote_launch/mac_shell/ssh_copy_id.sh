@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-. home_okchaind.profile
+
+. ../init_all.profile
 
 for host in ${OKCHAIN_TESTNET_ALL_NODE[@]}
 do

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-#run in ubuntu with root
+#run in mac
 
-. home_okchaind.profile
+. ../init_all.profile
 
 function main {
     cosmospath=~cosmos/cosmos-sdk
