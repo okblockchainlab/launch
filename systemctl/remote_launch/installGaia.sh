@@ -1,22 +1,20 @@
 #!/usr/bin/env bash
+# run in ubuntu with root
 
 . home_okchaind.profile
 
 function makeInstall {
-    cosmospath=${GOPATH}/src/github.com/okblockchainlab/cosmos-sdk
-    if [[ ! -d ${cosmospath} ]]; then
-        mkdir -p ${cosmospath}
-        git clone ${COSMOS_GIT} ${cosmospath}
-    fi
-
+    cosmospath=~cosmos/cosmos-sdk
+    rm -rf ${cosmospath}
+    git clone -b release/${1} ${COSMOS_SOURCE_GIT} ${cosmospath}
     cd ${cosmospath}
-    git checkout -b ${1} remotes/origin/release/${1}
-    git checkout ${1}
+
+    echo "====================== rebuild gaia with version `git branch` ======================"
     make tools install
 }
 
 function pushGaia {
-    cosmosbinpath=${GOPATH}/src/github.com/okblockchainlab/cosmosbins
+    cosmosbinpath=~cosmos/cosmosbins
     if [[ ! -d ${cosmosbinpath} ]]; then
         mkdir -p ${cosmosbinpath}
         git clone ${COSMOS_BINS_GIT} ${cosmosbinpath}
@@ -25,15 +23,15 @@ function pushGaia {
     cd ${cosmosbinpath}
     git checkout -b ${1}
 
+    echo "====================== copy gaia bins to ./cosmosbins ====================="
     gaiadpath=`which gaiad`
     gaiaclipath=`which gaiacli`
-    echo "====================== copy gaia bins to ./cosmosbins ====================="
     cp -f ${gaiadpath} ${cosmosbinpath}
     cp -f ${gaiaclipath} ${cosmosbinpath}
 
     echo "====================== push gaia bins to github ====================="
     git add .
-    git commit -a -m "rebuild gaiad bin ${1} in `date "+%G-%m-%d %H:%M:%S"`"
+    git commit -m "rebuild gaiad bin ${1} in `date "+%G-%m-%d %H:%M:%S"`"
     git push origin ${1}:${1}
 }
 

@@ -1,6 +1,5 @@
-SOURCE_COSMOS_GIT=https://github.com/cosmos/cosmos-sdk
-
-COSMOS_GIT=https://github.com/okblockchainlab/cosmos-sdk.git
+COSMOS_SOURCE_GIT=https://github.com/cosmos/cosmos-sdk.git
+COSMOS_OKCHAIN_GIT=https://github.com/okblockchainlab/cosmos-sdk.git
 COSMOS_BINS_GIT=git@gitlab.okcoin-inc.com:dex/cosmosbins.git
 
 COSMOS_BINS_TOP=/root/cosmosbins
@@ -15,3 +14,6 @@ okchain24
 okchain25)
 
 SSH="ssh root"
+
+export GO111MODULE=on
+export GOPROXY=https://goproxy.io
