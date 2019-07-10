@@ -2,7 +2,6 @@ COSMOS_SOURCE_GIT=https://github.com/cosmos/cosmos-sdk.git
 COSMOS_OKCHAIN_GIT=https://github.com/okblockchainlab/cosmos-sdk.git
 COSMOS_BINS_GIT=git@gitlab.okcoin-inc.com:dex/cosmosbins.git
 
-COSMOS_BINS_TOP=/root/cosmosbins
 OKCHAIN_LAUNCH_TOP=/root/go/src/github.com/okblockchainlab/launch
 LAUNCH_GIT=https://github.com/okblockchainlab/launch.git
 

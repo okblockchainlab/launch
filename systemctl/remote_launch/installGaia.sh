@@ -4,7 +4,7 @@
 . home_okchaind.profile
 
 function makeInstall {
-    cosmospath=~cosmos/cosmos-sdk
+    cosmospath=/root/cosmos/cosmos-sdk
     rm -rf ${cosmospath}
     git clone -b release/${1} ${COSMOS_SOURCE_GIT} ${cosmospath}
     cd ${cosmospath}
@@ -14,7 +14,7 @@ function makeInstall {
 }
 
 function pushGaia {
-    cosmosbinpath=~cosmos/cosmosbins
+    cosmosbinpath=/root/cosmos/cosmosbins
     if [[ ! -d ${cosmosbinpath} ]]; then
         mkdir -p ${cosmosbinpath}
         git clone ${COSMOS_BINS_GIT} ${cosmosbinpath}
