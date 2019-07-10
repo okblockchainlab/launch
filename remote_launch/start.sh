@@ -43,6 +43,7 @@ eeooff
 function moveGenesisfile {
      echo "====================== move launch/genesis.json ======================"
 ${SSH}@${1} << eeooff
+    rm -rf /root/.gaiad
     mkdir -p ${GENESIS_PATH}
     cp -f ${LAUNCH_PATH}/genesis.json ${GENESIS_PATH}
 
