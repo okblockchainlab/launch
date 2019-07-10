@@ -13,10 +13,10 @@ function downloadGaia {
         git checkout ${1}
     fi
 
-    s=`go env | grep GOBIN | sed 's/\"//g'`
-    GOBINPATH=${s##*=}
-    cp -f ${cosmosbinpath}/gaiad ${GOBINPATH}
-    cp -f ${cosmosbinpath}/gaiacli ${GOBINPATH}
+    #s=`go env | grep GOBIN | sed 's/\"//g'`
+    #GOBINPATH=${s##*=}
+    cp -f ${cosmosbinpath}/gaiad /usr/local/go/bin
+    cp -f ${cosmosbinpath}/gaiacli /usr/local/go/bin
     echo "gaiad version `gaiad version` , gaiacli version `gaiacli version` "
 }
 
