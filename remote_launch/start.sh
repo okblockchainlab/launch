@@ -44,10 +44,9 @@ eeooff
 }
 
 function moveGenesisfile {
-     echo "====================== download gaia bins ${VERSION} in ${1} ======================"
+     echo "====================== move launch/genesis.json ======================"
 ${SSH}@${1} << eeooff
-    cd ${LAUNCH_PATH}/remote_launch
-    ./downloadGaia.sh ${VERSION}
+    cp -f ${LAUNCH_PATH}/genesis.json ${GENESIS_PATH}
 
     exit
 eeooff
