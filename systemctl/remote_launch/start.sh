@@ -3,7 +3,7 @@
 
 . home_okchaind.profile
 
-while getopts "dv:" opt; do
+while getopts "d:v:" opt; do
   case ${opt} in
     d)
       DOWNLOAD="$OPTARG"
@@ -33,7 +33,7 @@ eeooff
 }
 
 function downloadgaia {
-     echo "========== download gaia bins ${VERSION} in ${1} =========="
+     echo "====================== download gaia bins ${VERSION} in ${1} ======================"
 ${SSH}@${1} << eeooff
     cd ${LAUNCH_PATH}/systemctl/remote_launch
     ./downloadGaia.sh ${VERSION}
@@ -50,14 +50,14 @@ function main {
     echo VERSION:${VERSION}
 
     if [[ ${DOWNLOAD} == "true" ]];then
-        echo "====================== download launch ======================"
+        echo "================================ download launch ================================"
         for host in ${OKCHAIN_TESTNET_ALL_NODE[@]}
         do
              downloadlaunch ${host}
         done
     fi
 
-    echo "====================== download gaia bins ======================"
+    echo "================================ download gaia bins ================================"
     for host in ${OKCHAIN_TESTNET_ALL_NODE[@]}
     do
          downloadgaia ${host}
