@@ -21,12 +21,12 @@ done
 function downloadlaunch {
     echo "====================== download launch in ${1} ======================"
 ${SSH}@${1} << eeooff
-    rm -rf ${LAUNCH_PATH}
     if [[ ! -d ${LAUNCH_PATH} ]]; then
        git clone -b cosmos ${LAUNCH_GIT} ${LAUNCH_PATH}
     else
        cd ${LAUNCH_PATH}
        git checkout cosmos
+       git pull origin cosmos
     fi
 
     exit
@@ -46,6 +46,7 @@ eeooff
 function moveGenesisfile {
      echo "====================== move launch/genesis.json ======================"
 ${SSH}@${1} << eeooff
+    mkdir ${GENESIS_PATH}
     cp -f ${LAUNCH_PATH}/genesis.json ${GENESIS_PATH}
 
     exit
@@ -58,14 +59,11 @@ function main {
     echo DOWNLOAD_LAUNCH:${DOWNLOAD}
     echo VERSION:${VERSION}
 
-
-    if [[ ${DOWNLOAD} == "true" ]];then
-        echo "================================ download launch ================================"
-        for host in ${OKCHAIN_TESTNET_ALL_NODE[@]}
-        do
-             downloadlaunch ${host}
-        done
-    fi
+    echo "================================ download launch ================================"
+    for host in ${OKCHAIN_TESTNET_ALL_NODE[@]}
+    do
+         downloadlaunch ${host}
+    done
 
     echo "================================ download gaia bins ================================"
     for host in ${OKCHAIN_TESTNET_ALL_NODE[@]}
