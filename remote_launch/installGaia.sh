@@ -2,9 +2,10 @@
 # run in ubuntu with root
 
 . init_all.profile
+. init_ubuntu.profile
 
 function makeInstall {
-    cosmospath=/root/gaia_test/cosmos-sdk
+    cosmospath=${COSMOS_PATH}
     rm -rf ${cosmospath}
     git clone -b release/${1} ${COSMOS_SOURCE_GIT} ${cosmospath}
     cd ${cosmospath}
@@ -15,7 +16,7 @@ function makeInstall {
 
 function pushGaia {
     echo "====================== git checkout branch ${1} ====================="
-    cosmosbinpath=/root/gaia_test/cosmosbins
+    cosmosbinpath=${COSMOSBINS_PATH}
     if [[ ! -d ${cosmosbinpath} ]]; then
         mkdir -p ${cosmosbinpath}
         git clone ${COSMOS_BINS_GIT} ${cosmosbinpath}

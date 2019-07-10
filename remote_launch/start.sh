@@ -43,7 +43,7 @@ ${SSH}@${1} << eeooff
 eeooff
 }
 
-function generatefile {
+function moveGenesisfile {
      echo "====================== download gaia bins ${VERSION} in ${1} ======================"
 ${SSH}@${1} << eeooff
     cd ${LAUNCH_PATH}/remote_launch
@@ -74,13 +74,11 @@ function main {
          downloadgaia ${host}
     done
 
-    echo "================================ generate genesis.json ================================"
+    echo "================================ move genesis.json ================================"
     for host in ${OKCHAIN_TESTNET_ALL_NODE[@]}
     do
-         downloadgaia ${host}
+        moveGenesisfile ${host}
     done
-
-
 }
 
 main

@@ -5,7 +5,7 @@
 . init_ubuntu.profile
 
 function downloadGaia {
-    cosmosbinpath=/root/gaia_test/cosmosbins
+    cosmosbinpath=${COSMOSBINS_PATH}
     if [[ ! -d ${cosmosbinpath} ]]; then
         mkdir -p ${cosmosbinpath}
         git clone -b ${1} ${COSMOS_BINS_GIT} ${cosmosbinpath}
