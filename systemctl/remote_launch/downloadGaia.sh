@@ -17,7 +17,7 @@ function downloadGaia {
     #GOBINPATH=${s##*=}
     cp -f ${cosmosbinpath}/gaiad /usr/local/go/bin
     cp -f ${cosmosbinpath}/gaiacli /usr/local/go/bin
-    echo "gaiad version `gaiad version` , gaiacli version `gaiacli version` "
+    echo "gaiad version `/usr/local/go/bin/gaiad version` , gaiacli version `/usr/local/go/bin/gaiacli version` "
 }
 
 downloadGaia ${1}

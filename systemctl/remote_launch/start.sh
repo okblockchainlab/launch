@@ -18,7 +18,7 @@ while getopts "d:v:" opt; do
 done
 
 function downloadlaunch {
-    echo "========== download launch in ${1} =========="
+    echo "====================== download launch in ${1} ======================"
 ${SSH}@${1} << eeooff
     rm -rf ${LAUNCH_PATH}
     if [[ ! -d ${LAUNCH_PATH} ]]; then
