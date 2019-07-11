@@ -45,7 +45,12 @@ function moveGenesisfile {
 ${SSH}@${1} << eeooff
     rm -rf /root/.gaiad
     mkdir -p ${GENESIS_PATH}
-    cp -f ${LAUNCH_PATH}/genesis.json ${GENESIS_PATH}
+    ${GOBINPATH}/gaiad init node0
+    scp -f ${GENESIS_PATH}/genesis.json root@okchain21:${GENESIS_PATH}
+    scp -f ${GENESIS_PATH}/genesis.json root@okchain22:${GENESIS_PATH}
+    scp -f ${GENESIS_PATH}/genesis.json root@okchain23:${GENESIS_PATH}
+    scp -f ${GENESIS_PATH}/genesis.json root@okchain24:${GENESIS_PATH}
+    scp -f ${GENESIS_PATH}/genesis.json root@okchain25:${GENESIS_PATH}
 
     exit
 eeooff
@@ -69,7 +74,7 @@ function main {
     done
 
     echo "================================ move genesis.json ================================"
-    for host in ${OKCHAIN_TESTNET_ALL_NODE[@]}
+    for host in ${OKCHAIN_TESTNET_ALL_NODE[0]}
     do
         moveGenesisfile ${host}
     done
