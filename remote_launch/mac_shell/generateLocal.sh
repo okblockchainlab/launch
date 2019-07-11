@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-. ../init_all.profile
+gaiad version
 
-cd ../../
-go run main.go
+gaiad testnet --v 5 --output-dir "`pwd`"/testnet --chain-id testchain --starting-ip-address 192.168.13.121

@@ -40,23 +40,13 @@ ${SSH}@${1} << eeooff
 eeooff
 }
 
-function genGenesisfile {
-     echo "====================== generate launch/genesis.json ======================"
-${SSH}@${1} << eeooff
-    rm -rf /root/.gaiad
-    mkdir -p ${GENESIS_PATH}
-    ${GOBINPATH}/gaiad init node0
-
-    exit
-eeooff
-}
-
 function moveGenesisfile {
      echo "====================== move launch/genesis.json ======================"
+     index=${2}
 ${SSH}@${1} << eeooff
-    rm -rf /root/.gaiad
+    rm -rf /root/gaianode
     mkdir -p ${GENESIS_PATH}
-    cp -f ${LAUNCH_PATH}/genesis.json ${GENESIS_PATH}
+    cp -rf ${LAUNCH_PATH}/genesis.json ${GENESIS_PATH}
 
     exit
 eeooff
@@ -79,17 +69,12 @@ function main {
          downloadgaia ${host}
     done
 
-    #echo "================================ generate genesis.json ================================"
-    #for host in ${OKCHAIN_TESTNET_ALL_NODE[0]}
-    #do
-    #    genGenesisfile ${host}
-    #done
-
     echo "================================ move genesis.json ================================"
-    for host in ${OKCHAIN_TESTNET_ALL_NODE[@]}
-    do
-        moveGenesisfile ${host}
-    done
+    for ((i=0;i<${#OKCHAIN_TESTNET_ALL_NODE[@]};i++))
+    {
+        #moveGenesisfile ${OKCHAIN_TESTNET_ALL_NODE[i]} ${i}
+        echo ""
+    }
 }
 
 main
