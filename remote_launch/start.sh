@@ -40,17 +40,21 @@ ${SSH}@${1} << eeooff
 eeooff
 }
 
-function moveGenesisfile {
+function genGenesisfile {
      echo "====================== move launch/genesis.json ======================"
 ${SSH}@${1} << eeooff
     rm -rf /root/.gaiad
     mkdir -p ${GENESIS_PATH}
     ${GOBINPATH}/gaiad init node0
-    scp -f ${GENESIS_PATH}/genesis.json root@okchain21:${GENESIS_PATH}
-    scp -f ${GENESIS_PATH}/genesis.json root@okchain22:${GENESIS_PATH}
-    scp -f ${GENESIS_PATH}/genesis.json root@okchain23:${GENESIS_PATH}
-    scp -f ${GENESIS_PATH}/genesis.json root@okchain24:${GENESIS_PATH}
-    scp -f ${GENESIS_PATH}/genesis.json root@okchain25:${GENESIS_PATH}
+
+    exit
+eeooff
+}
+
+function moveGenesisfile {
+     echo "====================== move launch/genesis.json ======================"
+${SSH}@${1} << eeooff
+    scp -f ${GENESIS_PATH} root@okchain16:${GENESIS_PATH}/genesis.json
 
     exit
 eeooff
@@ -73,10 +77,18 @@ function main {
          downloadgaia ${host}
     done
 
-    echo "================================ move genesis.json ================================"
+    echo "================================ generate genesis.json ================================"
     for host in ${OKCHAIN_TESTNET_ALL_NODE[0]}
     do
-        moveGenesisfile ${host}
+        genGenesisfile ${host}
+    done
+
+    echo "================================ move genesis.json ================================"
+    for host in ${OKCHAIN_TESTNET_ALL_NODE[@]}
+    do
+        if [[ ! ${host} == "okchain16" ]]; then
+            moveGenesisfile ${host}
+        fi
     done
 }
 
