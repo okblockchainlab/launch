@@ -44,9 +44,7 @@ if [ ${EXIST} = "Yes" ];then
     --log_file ${HOME_DAEMON}/okchaind.log \
     --prof_laddr 0.0.0.0:6060 \
     --p2p.laddr tcp://${LOCAL_IP}:26656 \
-    --worker-id="worker${LOCAL_IP_INET}" \
-    --redis_scheduler=172.31.34.176:6379 \
-    --redis_lock=172.31.34.176:6379 \
+    ${STREAM_ENGINE}
     --db_backend goleveldb \
     --production_mode
 else

@@ -17,3 +17,8 @@ USER=ubuntu
 OKCHAIN_TESTNET_SEED_NODES=("ec2-3-112-197-173.ap-northeast-1.compute.amazonaws.com")
 OKCHAIN_TESTNET_VAL_NODES=("ec2-18-179-4-209.ap-northeast-1.compute.amazonaws.com" "ec2-54-95-169-118.ap-northeast-1.compute.amazonaws.com" "ec2-54-65-208-55.ap-northeast-1.compute.amazonaws.com" "ec2-54-199-163-29.ap-northeast-1.compute.amazonaws.com")
 OKCHAIN_TESTNET_FULL_NODES=("ec2-52-197-220-161.ap-northeast-1.compute.amazonaws.com" "ec2-13-115-112-74.ap-northeast-1.compute.amazonaws.com")
+
+STREAM_ENGINE=--stream_engine="analysis&mysql&172.31.34.176:3306,notify&redis&redis://172.31.34.156:6379,kline&pulsar&172.31.38.192:6650" \
+    --worker-id="worker${LOCAL_IP_INET}" \
+    --redis_scheduler=redis://172.31.34.156:6379 \
+    --redis_lock=redis://172.31.34.156:6379 \
