@@ -34,6 +34,7 @@ fi
 
 EXIST=`echo "${OKCHAIN_TESTNET_FULL_NODES[@]}" | grep -wq "${LOCAL_IP}" &&  echo "Yes" || echo "No"`
 
+. $HOME/okchain/launch/systemctl/scripts/okchaind.profile
 if [ ${EXIST} = "Yes" ];then
     ${OKCHAIN_DAEMON} start --home ${HOME_DAEMON} \
     --p2p.seeds ${SEED_NODE_ID}@${SEED_NODE_URL} \
