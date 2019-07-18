@@ -13,7 +13,7 @@ EOF
 
 
 OS=`uname`
-for i in $(seq 0 4);
+for i in $(seq 0 3);
 do
     if [ "Linux" = ${OS} ]; then
        sed -i "s/addr_book_strict = true/addr_book_strict = false/g" $HOME/testnet/node${i}/gaiad/config/config.toml

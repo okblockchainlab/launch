@@ -7,8 +7,7 @@ LAUNCH_GIT=https://github.com/okblockchainlab/launch.git
 OKCHAIN_TESTNET_ALL_NODE=(okchain21
 okchain22
 okchain23
-okchain24
-okchain25)
+okchain24)
 
 SSH="ssh root"
 
