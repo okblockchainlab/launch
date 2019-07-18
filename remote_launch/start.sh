@@ -4,8 +4,18 @@
 . init_all.profile
 . init_ubuntu.profile
 
-while getopts "v:" opt; do
+UPDATELAUNCH=0
+DOWNLOADGAIA=0
+VERSION="v0.35.0"
+
+while getopts "ugv:" opt; do
   case ${opt} in
+    u)
+      UPDATELAUNCH=1
+      ;;
+    g)
+      DOWNLOADGAIA=1
+      ;;
     v)
       VERSION="$OPTARG"
       ;;
@@ -15,7 +25,7 @@ while getopts "v:" opt; do
   esac
 done
 
-function downloadlaunch {
+function updatelaunch {
     echo "====================== download launch in ${1} ======================"
 ${SSH}@${1} << eeooff
     if [[ ! -d ${LAUNCH_PATH} ]]; then
@@ -57,17 +67,21 @@ eeooff
 function main {
     echo VERSION:${VERSION}
 
-    echo "================================ download launch ================================"
-    for host in ${OKCHAIN_TESTNET_ALL_NODE[@]}
-    do
-         downloadlaunch ${host}
-    done
+    if [[ ${UPDATELAUNCH} -eq 1 ]];then
+        echo "================================ download launch ================================"
+        for host in ${OKCHAIN_TESTNET_ALL_NODE[@]}
+        do
+             updatelaunch ${host}
+        done
+    fi
 
-    echo "================================ download gaia bins ================================"
-    for host in ${OKCHAIN_TESTNET_ALL_NODE[@]}
-    do
-         downloadgaia ${host}
-    done
+    if [[ ${DOWNLOADGAIA} -eq 1 ]];then
+        echo "================================ download gaia bins ================================"
+        for host in ${OKCHAIN_TESTNET_ALL_NODE[@]}
+        do
+             downloadgaia ${host}
+        done
+    fi
 
     echo "================================ move genesis.json ================================"
     for ((i=0;i<${#OKCHAIN_TESTNET_ALL_NODE[@]};i++))

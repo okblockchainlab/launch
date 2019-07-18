@@ -4,7 +4,7 @@ rm -rf ../../testnet
 
 gaiad version
 
-gaiad testnet --v 5 --output-dir ../../testnet --chain-id testchain --starting-ip-address 192.168.13.121<<EOF
+gaiad testnet --v 5 --output-dir $HOME/testnet --chain-id testchain --starting-ip-address 192.168.13.121<<EOF
 12345678
 12345678
 12345678
@@ -12,7 +12,7 @@ gaiad testnet --v 5 --output-dir ../../testnet --chain-id testchain --starting-i
 12345678
 EOF
 
-cd ../../testnet
+cd $HOME/testnet
 
 #for (( i = 0; i < ${5}; ++i )); do
 #    k=` grep  -n "persistent_peers" node${1}/gaiad/config/config.toml  | cut  -d  ":"  -f  1`

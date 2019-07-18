@@ -4,12 +4,12 @@
 . ../init_all.profile
 
 function main {
-    cosmospath=~cosmos/cosmos-sdk
+    cosmospath=$HOME/cosmos/cosmos-sdk
     rm -rf ${cosmospath}
     git clone -b release/${1} ${SOURCE_COSMOS_GIT} ${cosmospath}
     cd ${cosmospath}
 
-    git remote add okblockchainlab ${COSMOS_GIT}
+    git remote add okblockchainlab ${COSMOS_OKCHAIN_GIT}
     git push okblockchainlab release/${1}
 }
 
