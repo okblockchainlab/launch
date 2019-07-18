@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin bash
 
 rm -rf ../../testnet
 
@@ -20,8 +20,9 @@ cd $HOME/testnet
 #done
 
 OS=`uname`
-for (( i = 0; i < 5; ++i )); do
-    if [[ ! "Darwin" = "${OS}" ]]; then
+for i in $(seq 0 4);
+do
+    if [ "Linux" = ${OS} ]; then
         sed -i "s/2665/1665/g" node${i}/gaiad/config/config.toml
         sed -i "s/2665/1665/g" node${i}/gaiad/config/genesis.json
     else
