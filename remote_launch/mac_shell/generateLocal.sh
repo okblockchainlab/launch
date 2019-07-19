@@ -4,10 +4,11 @@ testpath="/root/testnet"
 
 rm -rf ${testpath}
 
-gaiad version
+gaiad="`which gaiad`"
+${gaiad} version
 
 echo "====================== generate testnet with 4 nodes ======================"
-gaiad testnet --v 4 --output-dir ${testpath} --chain-id testchain --starting-ip-address 192.168.13.121<<EOF
+${gaiad} testnet --v 4 --output-dir ${testpath} --chain-id testchain --starting-ip-address 192.168.13.121<<EOF
 12345678
 12345678
 12345678
@@ -19,9 +20,9 @@ OS=`uname`
 for i in $(seq 0 3);
 do
     if [ "Linux" = ${OS} ]; then
-       sed -i "s/addr_book_strict = true/addr_book_strict = false/g" $HOME/testnet/node${i}/gaiad/config/config.toml
+       sed -i "s/addr_book_strict = true/addr_book_strict = false/g" /root/testnet/node${i}/gaiad/config/config.toml
     else
-       sed -i '' "s/addr_book_strict = true/addr_book_strict = false/g" $HOME/testnet/node${i}/gaiad/config/config.toml
+       sed -i '' "s/addr_book_strict = true/addr_book_strict = false/g" /root/testnet/node${i}/gaiad/config/config.toml
    fi
 done
 

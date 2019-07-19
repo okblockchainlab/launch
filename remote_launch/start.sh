@@ -61,7 +61,7 @@ eeooff
 function generateGenesisfile {
 ${SSH}@${1} << eeooff
     cd ${LAUNCH_PATH}/remote_launch/mac_shell
-    ./generateLocal.sh
+    sh generateLocal.sh
 
     exit
 eeooff
