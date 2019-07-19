@@ -67,6 +67,14 @@ ${SSH}@${1} << eeooff
 eeooff
 }
 
+function scpGensisFile {
+${SSH}@${1} << eeooff
+    scp -r root@${2}:/root/testnet/node${3} /root/gaianode
+
+    exit
+eeooff
+}
+
 function startgaia {
 ${SSH}@${1} << eeooff
     gaiad version
@@ -98,7 +106,14 @@ function main {
     fi
 
     if [[ ${GENRERATEFILE} -eq 1 ]];then
-        generateGenesisfile ${OKCHAIN_TESTNET_ALL_NODE[0]}
+        from=${OKCHAIN_TESTNET_ALL_NODE[0]}
+        generateGenesisfile ${from}
+        for i in $(seq 1 3);
+        do
+             to=${OKCHAIN_TESTNET_ALL_NODE[${i}]}
+             echo "====================== distribute ./node${i}/ to ${to}:/root/gaianode======================"
+             scpGensisFile ${to} ${from} ${i} | grep "no" #fitler useless ssh login message
+        done
     fi
 
     if [[ ${STARTGAIA} -eq 1 ]];then

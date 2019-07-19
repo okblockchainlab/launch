@@ -28,12 +28,6 @@ done
 
 echo "====================== distribute ./node0/ to okchain21:/root/gaianode======================"
 mv ${testpath}/node0/ /root/gaianode
-echo "====================== distribute ./node1/ to okchain22:/root/gaianode======================"
-scp -r ${testpath}/node1/ root@okchain22:/root/gaianode
-echo "====================== distribute ./node2/ to okchain23:/root/gaianode======================"
-scp -r ${testpath}/node2/ root@okchain23:/root/gaianode
-echo "====================== distribute ./node3/ to okchain24:/root/gaianode======================"
-scp -r ${testpath}/node3/ root@okchain24:/root/gaianode
 
 #for (( i = 0; i < ${5}; ++i )); do
 #    k=` grep  -n "persistent_peers" node${1}/gaiad/config/config.toml  | cut  -d  ":"  -f  1`
