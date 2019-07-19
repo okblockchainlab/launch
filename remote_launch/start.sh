@@ -69,6 +69,7 @@ eeooff
 
 function scpGensisFile {
 ${SSH}@${1} << eeooff
+    rm -rf /root/gaianode
     scp -r root@${2}:/root/testnet/node${3} /root/gaianode
 
     exit
@@ -112,7 +113,7 @@ function main {
         do
              to=${OKCHAIN_TESTNET_ALL_NODE[${i}]}
              echo "====================== distribute ./node${i}/ to ${to}:/root/gaianode======================"
-             scpGensisFile ${to} ${from} ${i} | grep "no" #fitler useless ssh login message
+             scpGensisFile ${to} ${from} ${i} | grep "kkk" #fitler useless ssh login message
         done
     fi
 

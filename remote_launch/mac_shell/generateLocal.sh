@@ -27,7 +27,7 @@ do
 done
 
 echo "====================== distribute ./node0/ to okchain21:/root/gaianode======================"
-mv ${testpath}/node0/ /root/gaianode
+mv -f ${testpath}/node0/ /root/gaianode
 
 #for (( i = 0; i < ${5}; ++i )); do
 #    k=` grep  -n "persistent_peers" node${1}/gaiad/config/config.toml  | cut  -d  ":"  -f  1`
