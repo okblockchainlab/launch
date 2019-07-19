@@ -8,9 +8,10 @@ UPDATELAUNCH=0
 DOWNLOADGAIA=0
 GENRERATEFILE=0
 STARTGAIA=0
+KILLGAIA=0
 VERSION="v0.35.0"
 
-while getopts "ugfsv:" opt; do
+while getopts "ugfskv:" opt; do
   case ${opt} in
     u)
       UPDATELAUNCH=1
@@ -23,6 +24,9 @@ while getopts "ugfsv:" opt; do
       ;;
     s)
       STARTGAIA=1
+      ;;
+    k)
+      KILLGAIA=1
       ;;
     v)
       VERSION="$OPTARG"
@@ -68,7 +72,7 @@ eeooff
 }
 
 function scpGensisFile {
-${SSH}@${1} << eeooff
+${SSH}@${1} << eeooff | grep "kkk" #fitler useless ssh login message
     rm -rf /root/gaianode
     scp -r root@${2}:/root/testnet/node${3} /root/gaianode
 
@@ -78,15 +82,23 @@ eeooff
 
 function startgaia {
 ${SSH}@${1} << eeooff
+    PATH=$PATH:/usr/local/go/bin
     gaiad version
-    nohup gaiad start --home gaianode/gaiad/ --log_level *:info &
+    gaiad start --home gaianode/gaiad/ --log_level *:info --p2p.laddr tcp://${1}:16656 --rpc.laddr tcp://0.0.0.0:16657 > /root/gaianode/testchain.log &
 
     exit
 eeooff
 }
 
-#2.download bins in every host
-#3.
+function killgaia {
+${SSH}@${1} << eeooff
+    cd ${LAUNCH_PATH}/remote_launch
+    sh killGaia.sh
+
+    exit
+eeooff
+}
+
 function main {
     echo VERSION:${VERSION}
 
@@ -113,7 +125,7 @@ function main {
         do
              to=${OKCHAIN_TESTNET_ALL_NODE[${i}]}
              echo "====================== distribute ./node${i}/ to ${to}:/root/gaianode======================"
-             scpGensisFile ${to} ${from} ${i} | grep "kkk" #fitler useless ssh login message
+             scpGensisFile ${to} ${from} ${i}
         done
     fi
 
@@ -122,6 +134,14 @@ function main {
         for host in ${OKCHAIN_TESTNET_ALL_NODE[@]}
         do
             startgaia ${host}
+        done
+    fi
+
+    if [[ ${KILLGAIA} -eq 1 ]];then
+        echo "================================ start testnet ================================"
+        for host in ${OKCHAIN_TESTNET_ALL_NODE[@]}
+        do
+            killgaia ${host}
         done
     fi
 
