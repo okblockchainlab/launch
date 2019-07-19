@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# run in ubuntu with root
+
+# run in okchain16 with root
 
 . init_all.profile
 . init_ubuntu.profile
@@ -18,13 +19,13 @@ while getopts "v:" opt; do
 done
 
 function makeInstall {
-    cosmospath=${COSMOS_PATH}
-    rm -rf ${cosmospath}
-    git clone -b ${VERSION} ${COSMOS_SOURCE_GIT} ${cosmospath}
-    cd ${cosmospath}
+    gaiapath=${GAIA_PATH}
+    rm -rf ${gaiapath}
+    git clone -b ${VERSION} ${GAIA_SOURCE_GIT} ${gaiapath}
 
-    echo "====================== rebuild gaia with version ${VERSION} ======================"
-    make tools install
+    echo "====================== rebuild gaia with version `git branch` ======================"
+    cd ${gaiapath}
+    make install
 }
 
 function pushGaia {
@@ -55,3 +56,5 @@ function main {
     makeInstall
     pushGaia
 }
+
+main
