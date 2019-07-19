@@ -51,23 +51,23 @@ function rebuild_and_push {
 ssh root@192.168.13.116 << eeooff
     source /root/env.sh
     cd /root/go/src/github.com/ok-chain/okchain
-    git stash
-    git pull
+    git reset --hard HEAD
     git checkout dev
+    git pull
     make install
     make tiger
     make launchcmd
 
     cd /root/go/src/github.com/cosmos/launch
-    git reset --hard
-    git pull
+    git reset --hard HEAD
     git checkout dev
+    git pull
     git branch
     if [ ! -d "/root/go/src/github.com/cosmos/launch/systemctl/binary/okbins_${ENV_TYPE}" ]; then
         git clone ${OKBINS_GIT} /root/go/src/github.com/cosmos/launch/systemctl/binary/okbins_${ENV_TYPE}
     fi
     cd /root/go/src/github.com/cosmos/launch/systemctl/binary/okbins_${ENV_TYPE}
-    git reset --hard HEAD~1
+#    git reset --hard HEAD~1
     cp /usr/local/go/bin/okchaind .
     cp /usr/local/go/bin/okchaincli .
     cp /usr/local/go/bin/tiger .

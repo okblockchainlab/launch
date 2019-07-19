@@ -7,7 +7,9 @@ PROFILE=${ENV_TYPE}_okchaind.profile
 AWS_OKBINS=/home/ubuntu/okchain/launch/systemctl/binary/okbins/
 
 function scp_okbins_to_ali {
-    ssh root@okchain16 "scp go/src/github.com/cosmos/launch/systemctl/binary/okbins_${ENV_TYPE}/okchainbins.tar.gz root@47.90.127.245:/root/"
+#    ssh root@okchain16 "scp go/src/github.com/cosmos/launch/systemctl/binary/okbins_${ENV_TYPE}/okchainbins.tar.gz root@47.90.127.245:/root/"
+    scp root@okchain16:/root/go/src/github.com/cosmos/launch/systemctl/binary/okbins_${ENV_TYPE}/okchainbins.tar.gz ~/
+    scp ~/okchainbins.tar.gz root@47.90.127.245:/root/
     ssh root@47.90.127.245 "scp -i okchain-dex-test.pem okchainbins.tar.gz ubuntu@52.197.220.161:/home/ubuntu/"
 }
 
