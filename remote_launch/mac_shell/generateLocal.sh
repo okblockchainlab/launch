@@ -1,5 +1,5 @@
 #!/bin bash
-PATH=$PATH:/root/go/bin
+PATH=$PATH:/usr/local/go/bin
 
 testpath="/root/testnet"
 
