@@ -6,15 +6,23 @@
 
 UPDATELAUNCH=0
 DOWNLOADGAIA=0
+GENRERATEFILE=0
+STARTGAIA=0
 VERSION="v0.35.0"
 
-while getopts "ugv:" opt; do
+while getopts "ugfsv:" opt; do
   case ${opt} in
     u)
       UPDATELAUNCH=1
       ;;
     g)
       DOWNLOADGAIA=1
+      ;;
+    f)
+      GENRERATEFILE=1
+      ;;
+    s)
+      STARTGAIA=1
       ;;
     v)
       VERSION="$OPTARG"
@@ -50,13 +58,19 @@ ${SSH}@${1} << eeooff
 eeooff
 }
 
-function moveGenesisfile {
-     echo "====================== move launch/genesis.json ======================"
-     index=${2}
+function generateGenesisfile {
 ${SSH}@${1} << eeooff
-    rm -rf /root/gaianode
-    mkdir -p ${GENESIS_PATH}
-    cp -rf ${LAUNCH_PATH}/genesis.json ${GENESIS_PATH}
+    cd ${LAUNCH_PATH}/remote_launch/mac_shell
+    ./generateLocal.sh
+
+    exit
+eeooff
+}
+
+function startgaia {
+${SSH}@${1} << eeooff
+    gaiad version
+    nohup gaiad start --home gaianode/gaiad/ --log_level *:info &
 
     exit
 eeooff
@@ -83,12 +97,18 @@ function main {
         done
     fi
 
-    echo "================================ move genesis.json ================================"
-    for ((i=0;i<${#OKCHAIN_TESTNET_ALL_NODE[@]};i++))
-    {
-        #moveGenesisfile ${OKCHAIN_TESTNET_ALL_NODE[i]} ${i}
-        echo ""
-    }
+    if [[ ${GENRERATEFILE} -eq 1 ]];then
+        generateGenesisfile ${OKCHAIN_TESTNET_ALL_NODE[0]}
+    fi
+
+    if [[ ${STARTGAIA} -eq 1 ]];then
+        echo "================================ start testnet ================================"
+        for host in ${OKCHAIN_TESTNET_ALL_NODE[@]}
+        do
+            startgaia ${host}
+        done
+    fi
+
 }
 
 main

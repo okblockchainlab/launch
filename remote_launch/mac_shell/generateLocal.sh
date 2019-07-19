@@ -1,10 +1,13 @@
 #!/bin bash
 
-rm -rf $HOME/testnet
+testpath="/root/testnet"
+
+rm -rf ${testpath}
 
 gaiad version
 
-gaiad testnet --v 4 --output-dir $HOME/testnet --chain-id testchain --starting-ip-address 192.168.13.121<<EOF
+echo "====================== generate testnet with 4 nodes ======================"
+gaiad testnet --v 4 --output-dir ${testpath} --chain-id testchain --starting-ip-address 192.168.13.121<<EOF
 12345678
 12345678
 12345678
@@ -22,9 +25,14 @@ do
    fi
 done
 
-scp -r $HOME/testnet/node1/ root@okchain22:/root/gaianode1
-scp -r $HOME/testnet/node2/ root@okchain23:/root/gaianode2
-scp -r $HOME/testnet/node3/ root@okchain24:/root/gaianode3
+echo "====================== distribute ./node0/ to okchain21:/root/gaianode======================"
+mv ${testpath}/node0/ /root/gaianode
+echo "====================== distribute ./node1/ to okchain22:/root/gaianode======================"
+scp -r ${testpath}/node1/ root@okchain22:/root/gaianode
+echo "====================== distribute ./node2/ to okchain23:/root/gaianode======================"
+scp -r ${testpath}/node2/ root@okchain23:/root/gaianode
+echo "====================== distribute ./node3/ to okchain24:/root/gaianode======================"
+scp -r ${testpath}/node3/ root@okchain24:/root/gaianode
 
 #for (( i = 0; i < ${5}; ++i )); do
 #    k=` grep  -n "persistent_peers" node${1}/gaiad/config/config.toml  | cut  -d  ":"  -f  1`

@@ -8,8 +8,7 @@ COSMOS_BINS_GIT=git@gitlab.okcoin-inc.com:dex/cosmosbins.git
 
 LAUNCH_GIT=https://github.com/okblockchainlab/launch.git
 
-OKCHAIN_TESTNET_ALL_NODE=(okchain16
-okchain21
+OKCHAIN_TESTNET_ALL_NODE=(okchain21
 okchain22
 okchain23
 okchain24)
