@@ -41,7 +41,7 @@ if [ ${EXIST} = "Yes" ];then
     --p2p.addr_book_strict=false \
     --p2p.seed_mode=${SEED_NODE} \
     --log_stdout=false \
-    --log_level main:info,*:error \
+    --log_level main:info,stream:info,*:error \
     --log_file ${HOME_DAEMON}/okchaind.log \
     --prof_laddr 0.0.0.0:6060 \
     --p2p.laddr tcp://${LOCAL_IP}:26656 \
