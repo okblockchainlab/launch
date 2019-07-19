@@ -149,7 +149,7 @@ function main {
     fi
 
     if [[ ${KILLGAIA} -eq 1 ]];then
-        echo "================================ start testnet ================================"
+        echo "================================ kill gaia ================================"
         for host in ${OKCHAIN_TESTNET_ALL_NODE[@]}
         do
             killgaia ${host}
