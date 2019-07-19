@@ -90,6 +90,16 @@ ${SSH}@${1} << eeooff
 eeooff
 }
 
+function startgaiaone {
+${SSH}@${1} << eeooff
+    PATH=$PATH:/usr/local/go/bin
+    gaiad version
+    gaiad start --home gaianode/gaiad/ --log_level *:info > /root/gaianode/testchain.log &
+
+    exit
+eeooff
+}
+
 function killgaia {
 ${SSH}@${1} << eeooff
     cd ${LAUNCH_PATH}/remote_launch
@@ -131,9 +141,10 @@ function main {
 
     if [[ ${STARTGAIA} -eq 1 ]];then
         echo "================================ start testnet ================================"
-        for host in ${OKCHAIN_TESTNET_ALL_NODE[@]}
+        startgaiaone ${OKCHAIN_TESTNET_ALL_NODE[0]}
+        for i in $(seq 1 3);
         do
-            startgaia ${host}
+             startgaia ${OKCHAIN_TESTNET_ALL_NODE[${i}]}
         done
     fi
 
