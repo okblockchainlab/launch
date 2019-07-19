@@ -1,14 +1,14 @@
 #!/bin bash
+PATH=$PATH:/root/go/bin
 
 testpath="/root/testnet"
 
 rm -rf ${testpath}
 
-gaiad="`which gaiad`"
-${gaiad} version
+gaiad version
 
 echo "====================== generate testnet with 4 nodes ======================"
-${gaiad} testnet --v 4 --output-dir ${testpath} --chain-id testchain --starting-ip-address 192.168.13.121<<EOF
+gaiad testnet --v 4 --output-dir ${testpath} --chain-id testchain --starting-ip-address 192.168.13.121<<EOF
 12345678
 12345678
 12345678
