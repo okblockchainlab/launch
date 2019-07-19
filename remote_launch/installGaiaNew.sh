@@ -26,10 +26,11 @@ function makeInstall {
     echo "====================== rebuild gaia with version `git branch` ======================"
     cd ${gaiapath}
     make install
+    VERSION="`gaiad version`"
 }
 
 function pushGaia {
-    echo "====================== git checkout branch ${1} ====================="
+    echo "====================== git checkout branch ${VERSION} ====================="
     cosmosbinpath=${COSMOSBINS_PATH}
     if [[ ! -d ${cosmosbinpath} ]]; then
         mkdir -p ${cosmosbinpath}
@@ -45,7 +46,7 @@ function pushGaia {
     cp -f ${gaiadpath} ${cosmosbinpath}
     cp -f ${gaiaclipath} ${cosmosbinpath}
 
-    echo "====================== push new gaia bins `gaiad version` to gitlab ====================="
+    echo "====================== push new gaia bins ${VERSION} to gitlab ====================="
     git add .
     git commit -m "rebuild gaia bin ${VERSION} in `date "+%G-%m-%d %H:%M:%S"`"
     git push origin ${VERSION}:${VERSION}
