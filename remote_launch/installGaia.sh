@@ -20,7 +20,7 @@ done
 function makeInstall {
     cosmospath=${COSMOS_PATH}
     rm -rf ${cosmospath}
-    git clone -b ${VERSION} ${COSMOS_SOURCE_GIT} ${cosmospath}
+    git clone -b ${VERSION} ${COSMOS_OKLAB_GIT} ${cosmospath}
 
     echo "====================== rebuild gaia with version ${VERSION} ======================"
     cd ${cosmospath}

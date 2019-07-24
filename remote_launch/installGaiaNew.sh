@@ -21,7 +21,7 @@ done
 function makeInstall {
     gaiapath=${GAIA_PATH}
     rm -rf ${gaiapath}
-    git clone -b ${VERSION} ${GAIA_SOURCE_GIT} ${gaiapath}
+    git clone -b ${VERSION} ${GAIA_OKLAB_GIT} ${gaiapath}
 
     echo "====================== rebuild gaia with version `git branch` ======================"
     cd ${gaiapath}
