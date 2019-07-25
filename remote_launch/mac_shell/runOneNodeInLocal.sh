@@ -4,7 +4,7 @@
 . ../init_all.profile
 . ../init_goenv.profile
 
-VERSION="master"
+VERSION="v0.35.0"
 REBUILD=0
 GENERATE=0
 STARTNODE=0

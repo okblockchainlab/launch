@@ -5,7 +5,7 @@
 . ../init_all.profile
 . ../init_goenv.profile
 
-VERSION="master"
+VERSION="v0.35.0"
 
 while getopts "v:" opt; do
   case ${opt} in
