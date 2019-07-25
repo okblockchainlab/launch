@@ -53,12 +53,6 @@ function start {
     nohup gaiad start --home $HOME/gaia_test/gaianode/node0/gaiad/ --log_level *:info >> $HOME/gaia_test/gaianode/node0/testchain.log 2>&1 &
 }
 
-function killnode {
-    pid=`ps -ef|grep gaiad|grep -v grep | awk '{print $2}'`
-    echo "kill gaiad ,pid: $pid"
-    kill ${pid}
-}
-
 function main {
     if [[ ${REBUILD} -eq 1 ]];then
         makeInstall
@@ -70,10 +64,6 @@ function main {
 
     if [[ ${STARTNODE} -eq 1 ]];then
         start
-    fi
-
-    if [[ ${KILLNODE} -eq 1 ]];then
-        killnode
     fi
 }
 
