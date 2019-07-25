@@ -8,7 +8,6 @@ VERSION="master"
 REBUILD=0
 GENERATE=0
 STARTNODE=0
-KILLNODE=0
 
 while getopts "rgskv:" opt; do
   case ${opt} in
@@ -20,9 +19,6 @@ while getopts "rgskv:" opt; do
       ;;
     s)
       STARTNODE=1
-      ;;
-    k)
-      KILLNODE=1
       ;;
     v)
       VERSION="release/$OPTARG"
