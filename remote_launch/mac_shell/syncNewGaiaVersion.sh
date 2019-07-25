@@ -26,6 +26,7 @@ function main {
     cd ${gaiapath}
     go mod vendor
     go mod verify
+    git add -f vendor
     git add .
     git commit -m "go mod vendor"
     git remote add okblockchainlab ${GAIA_OKLAB_GIT}

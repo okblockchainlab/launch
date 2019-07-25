@@ -26,6 +26,7 @@ function main {
     cd ${cosmospath}
     go mod vendor
     go mod verify
+    git add -f vendor
     git add .
     git commit -m "go mod vendor"
     git remote add okblockchainlab ${COSMOS_OKLAB_GIT}
