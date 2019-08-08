@@ -2,7 +2,7 @@ class Libpulsar < Formula
   desc "Apache Pulsar C++ library"
   homepage "https://pulsar.apache.org/"
   url "http://archive.apache.org/dist/pulsar/pulsar-2.3.1/apache-pulsar-2.3.1-src.tar.gz"
-  sha256 "d919aae864f7f9751f2e57a4f295de57ff370c537ecd8980c573f3c36a589db0"
+  sha256 "f4541182384942f59a83fd3150d3c46351ed443b159520296d69ae0ae8612dd8"
 
   bottle do
     cellar :any
